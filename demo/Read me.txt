@@ -1,0 +1,62 @@
+Simple POJO(Plain Old Java Object) classes with the basic annotations of spring. 
+
+Similar to JVM , Spring has spring container in which the spring beans are present
+
+By default these beans follows singleton pattern.
+
+But we can make them prototype also
+
+To access the spring beans we create a context variable 
+ConfigurableApplicationContext context = SpringApplication.run(DemoApplication.class, args); 
+
+When the above instruction is executed all the singleton components/beans are created
+----------------------------------------------------------------------------------------------------------
+Dependency Injection
+To enable the loose coupling and easy for testing , this is more useful as the Spring container "injects" objects into other objects
+
+To get the object of specific class we can get the object without using the new variable from the spring 
+Employee e = context.getBean(Employee.class);
+
+To enable the class as component or bean we use the annotation
+@Component
+This creats the singleton object.
+
+To get the prototype object
+@Component
+@Scope(value="prototype")
+
+Object is created each time when the getBean is called or instantiated
+-----------------------------------------------------------------------------------------------------------
+When classes are internally related to each other we define the dependency by annotation
+@Autowired
+in the dependant class
+
+eg : In the program employee has dependency relation with laptop
+
+So we create the object of laptop inside the employee as follows
+
+@Autowired
+private Laptop laptop;
+
+Now we can use the laptop object inside the employee class without instantiation of new keyword.
+----------------------------------------------------------------------------------------------------------
+
+@Autowired
+private Laptop laptop;
+Here we are getting the object by its class name
+
+Suppose if we dont want to get the name of class in the dependent class we can use the qualifier
+
+In the Laptop class
+@Component("lap")
+public class Laptop
+{.................}
+
+Now inside the Employee we cannot get the object of laptop by using 
+@Autowired
+private Laptop laptop;
+
+we need to mention the name of qualifier used
+@Autowired
+@Qualifier("lap")
+private Laptop laptop;
